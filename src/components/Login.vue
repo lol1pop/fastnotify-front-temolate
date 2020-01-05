@@ -36,29 +36,43 @@ export default {
     }
   },
   methods: {
-    login: function() {
-      const { email, password } = this;
-      this.$store.dispatch("Auth", { email, password }).then(() => {
-        this.$router.push("/");
-      });
+    login() {
+      const {email, password} = this;
+      this.$store.dispatch("AuthByToken", {email, password})
+              .then(() => {
+                this.$router.push("/");
+              });
     },
-    singIn: function() {
-      const { email, password } = this;
-      return this.$store
-        .dispatch("Auth", {
-          email: email,
-          password: password
-        })
-        .then(() => {
-          this.$router.push({ path: "/" });
-        })
-        .catch((err) => {
-          this.$message({
-            message: "Incorrect credentials. Please try again" + err,
-            type: "error"
-          });
-        });
+    singIn() {
+      const {email, password} = this;
+      return this.$store.dispatch("AuthWithPolicy", {email, password})
+              .then(() => {
+                this.$router.push({path: "/"});
+              })
+              .catch((err) => {
+                this.$message({
+                  message: "Incorrect credentials. Please try again" + err,
+                  type: "error"
+                });
+              });
     }
   }
 };
 </script>
+
+<style scoped>
+  h3 {
+    margin: 40px 0 0;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  a {
+    color: #42b983;
+  }
+</style>

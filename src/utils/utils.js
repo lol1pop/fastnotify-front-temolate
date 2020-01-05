@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { store } from '../store';
+import router from '../router';
 
 const updateTime = 1000 * 60 * 60 * 24; // 24h
 
@@ -10,7 +11,7 @@ const checkIfExpired = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('tokenExpire');
     store.dispatch('Logout').then(() => {
-      this.$router.push("/");
+      router.push("/");
     });
   }
   return localStorage.token || undefined;
