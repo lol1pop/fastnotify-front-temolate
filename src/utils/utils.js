@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from '../store';
+import { store } from '../store';
 
 const updateTime = 1000 * 60 * 60 * 24; // 24h
 
@@ -9,7 +9,9 @@ const checkIfExpired = () => {
   if (expireTime && !(Date.now() - expireTime < updateTime)) {
     localStorage.removeItem('token');
     localStorage.removeItem('tokenExpire');
-    store.dispatch('LOGOUT');
+    store.dispatch('Logout').then(() => {
+      this.$router.push("/");
+    });
   }
   return localStorage.token || undefined;
 };
@@ -24,7 +26,7 @@ const setInterceptor = () => {
     return config;
   };
 
-  const setAuth = createSetAuthInterceptor(checkIfExpired() || store.state.token);
+  const setAuth = createSetAuthInterceptor(checkIfExpired() || store.state.authToken);
   axios.interceptors.request.use(setAuth);
 };
 

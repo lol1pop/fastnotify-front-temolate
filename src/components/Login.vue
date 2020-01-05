@@ -14,12 +14,10 @@
 </template>
 
 <script>
-import logger from "../mixins/logger";
 import { checkIfExpired } from "../utils/utils";
 
 export default {
   name: "Login",
-  mixins: [logger],
   data() {
     return {
       email: undefined,
@@ -28,38 +26,38 @@ export default {
   },
   computed: {
     isLogged() {
-      this.log("[Login] checking in $store.state:", this.$store.getters.auth);
+      this.log("[Login] checking in $store.state:", this.$store.getters.isAuthenticated);
       this.log("[Login] checking in localstorage: ", checkIfExpired());
       const storedToken = checkIfExpired();
       if (storedToken) {
-        this.$store.commit("authSuccess", storedToken);
+        this.$store.commit("setAuthToken", storedToken);
       }
       return this.$store.getters.isAuthenticated;
+    }
+  },
+  methods: {
+    login: function() {
+      const { email, password } = this;
+      this.$store.dispatch("Auth", { email, password }).then(() => {
+        this.$router.push("/");
+      });
     },
     singIn: function() {
       const { email, password } = this;
       return this.$store
-        .dispatch("AUTH", {
+        .dispatch("Auth", {
           email: email,
           password: password
         })
         .then(() => {
           this.$router.push({ path: "/" });
         })
-        .catch(() => {
+        .catch((err) => {
           this.$message({
-            message: "Incorrect credentials. Please try again",
+            message: "Incorrect credentials. Please try again" + err,
             type: "error"
           });
         });
-    }
-  },
-  methods: {
-    login: function() {
-      const { email, password } = this;
-      this.$store.dispatch("AUTH", { email, password }).then(() => {
-        this.$router.push("/");
-      });
     }
   }
 };

@@ -14,8 +14,8 @@ export default new Router({
       component: Login,
       beforeEnter: (to, from, next) => {
           if (!store.getters.isAuthenticated) {
-            next()
-            return
+            next();
+            return;
           }
           next('/')
       }

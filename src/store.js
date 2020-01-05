@@ -14,70 +14,38 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    status: undefined,
-    token: storedToken || null,
-    isLoading: false,
-    isError: false
+    authToken: storedToken || null
   },
   mutations: {
-    authPending: state => {
-      state.status = "loading";
-      state.isLoading = true;
-      state.isError = false;
-    },
-    authReject: state => {
-      state.status = "error";
-      state.isLoading = false;
-      state.isError = true;
-      state.token = null;
-    },
-    authSuccess: (state, token) => {
-      state.status = "success";
-      state.isLoading = false;
-      state.isError = false;
-      state.token = token;
-    },
-    authLogout: state => {
-        state.status = "logout";
-        state.isLoading = false;
-        state.isError = false;
-        state.token = null;
+    setAuthToken: (state, { token }) => {
+      state.authToken = token;
     }
   },
   actions: {
-    LOGOUT: store => {
-      store.commit("authLogout");
+    Logout: ({ commit }) => {
+      commit("setAuthToken", { token: null });
       localStorage.removeItem("token");
       localStorage.removeItem("tokenExpire");
     },
-    AUTH: ({ state, commit }, credentials) => {
-      if (!state.isLoading) {
-        commit("authPending", state);
+    Auth: ({ commit }, credentials) => {
         return apiLogin
           .auth(credentials)
           .then(res => {
             const token = res.data.token;
-            commit("authSuccess", token);
+            commit("setAuthToken", { token });
             setInterceptor();
             localStorage.token = token;
             localStorage.tokenExpire = Date.now();
           })
           .catch(err => {
-            commit("authReject", state);
+            commit("setAuthToken", { token: null });
             localStorage.removeItem("token");
             localStorage.removeItem("tokenExpire");
             throw err;
           });
       }
-      return false;
-    }
   },
   getters: {
-    authStatus: state => {
-      return state.status;
-    },
-    isAuthenticated: state => {
-      return !!state.token;
-    }
+    isAuthenticated: state => !!state.authToken
   }
 });
