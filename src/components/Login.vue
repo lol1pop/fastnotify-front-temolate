@@ -1,15 +1,14 @@
 <template>
   <div>
-    <form class="login" @submit.prevent="login">
+    <div class="login">
       <h1>Sign in</h1>
       <label>User name</label>
       <input required v-model="email" type="text" placeholder="Snoopy" />
       <label>Password</label>
       <input required v-model="password" type="password" placeholder="Password" />
       <hr />
-      <button type="primary" @click="singIn">Log In</button>
-      <button type="submit">Login</button>
-    </form>
+      <button type="primary" @click="singIn">Sing In</button>
+    </div>
   </div>
 </template>
 
@@ -38,14 +37,14 @@ export default {
   methods: {
     login() {
       const {email, password} = this;
-      this.$store.dispatch("AuthByToken", {email, password})
+      this.$store.dispatch("authByToken", { email, password })
               .then(() => {
                 this.$router.push("/");
               });
     },
     singIn() {
       const {email, password} = this;
-      return this.$store.dispatch("AuthWithPolicy", {email, password})
+      return this.$store.dispatch("authWithPolicy", { email, password })
               .then(() => {
                 this.$router.push({path: "/"});
               })

@@ -10,7 +10,7 @@ const checkIfExpired = () => {
   if (expireTime && !(Date.now() - expireTime < updateTime)) {
     localStorage.removeItem('token');
     localStorage.removeItem('tokenExpire');
-    store.dispatch('Logout').then(() => {
+    store.dispatch('logout').then(() => {
       router.push("/");
     });
   }

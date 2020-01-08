@@ -28,13 +28,13 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    Logout ({ commit }) {
+    logout ({ commit }) {
       commit("setAuthToken", { token: null });
       localStorage.removeItem("token");
       localStorage.removeItem("tokenExpire");
     },
-    AuthByToken({commit}, credentials) {
-      return axios.post('/api/login', {
+    authByToken({commit}, credentials) {
+      return axios.post('/api/auth/login', {
         email: credentials.email,
         password: credentials.password
       }).then(res => {
@@ -50,24 +50,27 @@ export const store = new Vuex.Store({
         throw err;
       });
     },
-    AuthWithPolicy({commit}, { email, password }) {
-      return axios.post('/api/login', {
+    authWithPolicy({commit}, { email, password }) {
+      // eslint-disable-next-line no-console
+      console.log({email, password});
+      return axios.post('/api/auth/login', {
         login: email,
         password: password
       }).then(res => {
         commit("setAuthData", { data: res.data });
-        setInterceptor();
-        localStorage.setItem("authData", res.data );
+        localStorage.setItem("authData", JSON.stringify(res.data));
         localStorage.setItem("tokenExpire", Date.now());
+        return res.data;
       }).catch(err => {
         commit("setAuthData", { data: null });
         localStorage.removeItem("authData");
         localStorage.removeItem("tokenExpire");
-        throw err;
+        return err;
       });
     }
   },
   getters: {
-    isAuthenticated: state => !!state.authToken
+    isAuthenticatedToken: state => !!state.authToken,
+    isAuthenticated: state => !!state.authData
   }
 });
