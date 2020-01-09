@@ -35,7 +35,7 @@ export const store = new Vuex.Store({
     },
     authByToken({commit}, credentials) {
       return axios.post('/api/auth/login', {
-        email: credentials.email,
+        login: credentials.login,
         password: credentials.password
       }).then(res => {
         const token = res.data.token;
@@ -50,22 +50,27 @@ export const store = new Vuex.Store({
         throw err;
       });
     },
-    authWithPolicy({commit}, { email, password }) {
+    authWithPolicy({commit}, { login, password }) {
       // eslint-disable-next-line no-console
-      console.log({email, password});
+      console.log({login, password});
       return axios.post('/api/auth/login', {
-        login: email,
+        login: login,
         password: password
       }).then(res => {
-        commit("setAuthData", { data: res.data });
-        localStorage.setItem("authData", JSON.stringify(res.data));
-        localStorage.setItem("tokenExpire", Date.now());
-        return res.data;
+        if(res.data && res.data.success) {
+          commit("setAuthData", {data: res.data});
+          localStorage.setItem("authData", JSON.stringify(res.data));
+          localStorage.setItem("tokenExpire", Date.now());
+          return res.data;
+        }else {
+          commit("setAuthData", { data: null });
+          throw res.data.error;
+        }
       }).catch(err => {
         commit("setAuthData", { data: null });
         localStorage.removeItem("authData");
         localStorage.removeItem("tokenExpire");
-        return err;
+        throw "Incorrect credentials. " + err;
       });
     }
   },
