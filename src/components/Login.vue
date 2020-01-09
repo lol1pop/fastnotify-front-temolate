@@ -15,7 +15,7 @@
         <div class="error_password" v-if="!!isUnCorrectPassword">Wrong password</div>
       </div>
       <div class="error" :class="{ view: !!errorSigIn }"><span>{{ errorSigIn }}</span></div>
-      <button :disabled="!!isUnCorrectLogin || !!isUnCorrectPassword || (!login || !password)" class="button button__sign-in" type="primary" @click="singIn">Sing In</button>
+      <button :disabled="isDisableButton" class="button button__sign-in" type="primary" @click="singIn">Sing In</button>
     </div>
   </div>
 </template>
@@ -39,6 +39,9 @@ export default {
     };
   },
   computed: {
+    isDisableButton() {
+      return !!this.isUnCorrectLogin || !!this.isUnCorrectPassword || (!this.login || !this.password)
+    },
     isLogged() {
       this.log("[Login] checking in $store.state:", this.$store.getters.isAuthenticated);
       this.log("[Login] checking in localstorage: ", checkIfExpired());
@@ -52,17 +55,11 @@ export default {
   methods: {
     checkCorrectLogin(){
       if(this.login.length === 0) {this.isUnCorrectLogin = false; return;}
-      if (this.login.length < 3) {
-        this.isUnCorrectLogin = true;
-      }
-      this.isUnCorrectLogin = !correctRegExp.test(this.login)
+      this.isUnCorrectLogin = this.login.length < 3 || !correctRegExp.test(this.login);
     },
     checkCorrectPassword(){
       if(this.password.length === 0) {this.isUnCorrectPassword = false; return;}
-      if (this.password.length < 3) {
-        this.isUnCorrectPassword = true;
-      }
-      this.isUnCorrectPassword = !correctRegExp.test(this.password)
+      this.isUnCorrectPassword = this.password.length < 3 || !correctRegExp.test(this.password);
     },
     singInByToken() {
       const {email, password} = this;
