@@ -62,15 +62,15 @@ export default {
       this.isUnCorrectPassword = this.password.length < 3 || !correctRegExp.test(this.password);
     },
     singInByToken() {
-      const {email, password} = this;
-      this.$store.dispatch("authByToken", { email, password })
+      const { login, password} = this;
+      this.$store.dispatch("authByToken", { login, password })
               .then(() => {
                 this.$router.push("/");
               });
     },
     singIn() {
-      const {email, password} = this;
-      return this.$store.dispatch("authWithPolicy", { email, password })
+      const { login, password} = this;
+      return this.$store.dispatch("authWithPolicy", { login, password })
               .then(() => {
                 this.$router.push({path: "/"});
               })
