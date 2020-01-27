@@ -3,7 +3,7 @@
         <v-container>
             <v-app-bar
                     app
-                    color="success"
+                    :color="color.main"
                     dark
                     clipped-left
             >
@@ -12,18 +12,11 @@
                             alt="Vuetify Logo"
                             class="shrink mr-2"
                             contain
-                            src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+                            :src="require('../assets/logo.png')"
                             transition="scale-transition"
                             width="40"
                     />
-                    <v-img
-                            alt="Vuetify Name"
-                            class="shrink mt-1 hidden-sm-and-down"
-                            contain
-                            min-width="100"
-                            src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-                            width="100"
-                    />
+                    <span class="shrink mt-1 hidden-sm-and-down">Fast<span class="font-weight-light">Notify</span></span>
                 </div>
                 <v-spacer/>
                 <v-btn
@@ -37,32 +30,56 @@
             </v-app-bar>
             <v-navigation-drawer
                     app
-                    v-model="drawer"
-                    :color="color"
-                    :expand-on-hover="expandOnHover"
-                    :mini-variant="miniVariant"
                     dark
-                    clipped
+                    v-model="primaryDrawer.drawer"
+                    :color="color.main"
+                    :expand-on-hover="primaryDrawer.expandOnHover"
+                    :mini-variant="primaryDrawer.miniVariant"
+                    :clipped="primaryDrawer.clipped"
             >
                 <v-list
                         dense
                         nav
                 >
-                    <v-divider/>
-
-                    <v-list-item
-                            v-for="item in items"
-                            :key="item.title"
-                            link
-                    >
+                    <template v-for="(item, i) in items">
+                        <v-row
+                                v-if="item.heading"
+                                :key="i"
+                                align="center"
+                        >
+                            <v-col cols="6">
+                                <v-subheader v-if="item.heading">
+                                    {{ item.heading }}
+                                </v-subheader>
+                            </v-col>
+                            <v-col
+                                    cols="6"
+                                    class="text-right"
+                            >
+                                <v-btn
+                                        small
+                                        text
+                                >edit</v-btn>
+                            </v-col>
+                        </v-row>
+                        <v-divider
+                                v-else-if="item.divider"
+                                :key="i"
+                                dark
+                                class="my-4"
+                        />
+                        <v-list-item
+                                v-else
+                                :key="i"
+                                link>
                         <v-list-item-icon>
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-item-icon>
-
                         <v-list-item-content>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            <v-list-item-title>{{ item.text  }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    </template>
                 </v-list>
             </v-navigation-drawer>
             <v-content>
@@ -83,15 +100,44 @@
     components: {},
 
     data: () => ({
-      drawer: true,
       items: [
-        {title: "Dashboard", icon: "mdi-view-dashboard"},
-        {title: "Photos", icon: "mdi-image"},
-        {title: "About", icon: "mdi-help-box"},
-      ],
-      right: false,
-      expandOnHover: true,
-      color: "success",
+        {text : "Create alert", icon: "mdi-application"},
+        {text : "Send alert", icon: "mdi-application-export"},
+        {text : "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
+        {text : "Template alert", icon: "mdi-animation-outline"},
+        {divider: true },
+        {text : "Surveys alert", icon: "mdi-ballot-outline"},
+        {divider: true },
+        {text : "Publishers List", icon: "mdi-account-tie-voice-outline"},
+        {text : "Policies", icon: "mdi-account-badge-alert-outline"},
+        {divider: true },
+        {text : "Reports", icon: "mdi-chart-bell-curve-cumulative"},
+        {text : 'Help', icon: 'mdi-help' },
+        {divider: true },
+        ],
+      primaryDrawer: {
+        drawer: true,
+        model: null,
+        type: "default (no property)",
+        clipped: true,
+        right: false,
+        expandOnHover: true,
+        miniVariant: true,
+      },
+      color: {
+        background: "#232323",
+        main: "#1b5e20",
+        secondary: "#",
+        dark: "#353535",
+        light: "#424242"
+      },
     }),
   }
 </script>
+
+<style>
+    .shrink.mt-1.hidden-sm-and-down {
+        font-size: 27px;
+        font-family: "Fira Code Retina";
+    }
+</style>
