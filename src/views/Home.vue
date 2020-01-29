@@ -1,6 +1,5 @@
 <template>
     <v-app>
-        <v-container>
             <v-app-bar
                     app
                     :color="color.main"
@@ -16,7 +15,8 @@
                             transition="scale-transition"
                             width="40"
                     />
-                    <span class="shrink mt-1 hidden-sm-and-down">Fast<span class="font-weight-light">Notify</span></span>
+                    <span class="shrink mt-1 hidden-sm-and-down">Fast<span
+                            class="font-weight-light">Notify</span></span>
                 </div>
                 <v-spacer/>
                 <v-btn
@@ -59,7 +59,8 @@
                                 <v-btn
                                         small
                                         text
-                                >edit</v-btn>
+                                >edit
+                                </v-btn>
                             </v-col>
                         </v-row>
                         <v-divider
@@ -71,23 +72,29 @@
                         <v-list-item
                                 v-else
                                 :key="i"
-                                link>
-                        <v-list-item-icon>
-                            <v-icon>{{ item.icon }}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title>{{ item.text  }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+                                :href="item.link"
+                                >
+                            <v-list-item-icon>
+                                <v-icon>{{ item.icon }}</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>{{ item.text }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                     </template>
                 </v-list>
             </v-navigation-drawer>
             <v-content>
-                <v-card>
-                    <router-view/>
-                </v-card>
+                <v-container>
+                    <v-card>
+                        <v-container fluid>
+                            <v-fade-transition mode="out-in">
+                                <router-view/>
+                            </v-fade-transition>
+                        </v-container>
+                    </v-card>
+                </v-container>
             </v-content>
-        </v-container>
     </v-app>
 </template>
 
@@ -101,20 +108,20 @@
 
     data: () => ({
       items: [
-        {text : "Create alert", icon: "mdi-application"},
-        {text : "Send alert", icon: "mdi-application-export"},
-        {text : "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
-        {text : "Template alert", icon: "mdi-animation-outline"},
-        {divider: true },
-        {text : "Surveys alert", icon: "mdi-ballot-outline"},
-        {divider: true },
-        {text : "Publishers List", icon: "mdi-account-tie-voice-outline"},
-        {text : "Policies", icon: "mdi-account-badge-alert-outline"},
-        {divider: true },
-        {text : "Reports", icon: "mdi-chart-bell-curve-cumulative"},
-        {text : 'Help', icon: 'mdi-help' },
-        {divider: true },
-        ],
+        {text: "Create alert", icon: "mdi-application", link: "/Hello"},
+        {text: "Send alert", icon: "mdi-application-export"},
+        {text: "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
+        {text: "Template alert", icon: "mdi-animation-outline"},
+        {divider: true},
+        {text: "Surveys alert", icon: "mdi-ballot-outline"},
+        {divider: true},
+        {text: "Publishers List", icon: "mdi-account-tie-voice-outline"},
+        {text: "Policies", icon: "mdi-account-badge-alert-outline"},
+        {divider: true},
+        {text: "Reports", icon: "mdi-chart-bell-curve-cumulative"},
+        {text: "Help", icon: "mdi-help"},
+        {divider: true},
+      ],
       primaryDrawer: {
         drawer: true,
         model: null,
@@ -129,7 +136,7 @@
         main: "#1b5e20",
         secondary: "#",
         dark: "#353535",
-        light: "#424242"
+        light: "#424242",
       },
     }),
   }
