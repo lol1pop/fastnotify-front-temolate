@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from "@/views/Home"
 import Login from './views/Login.vue';
 import HelloWorld from "@/components/HelloWorld"
 import { store } from './store';
@@ -24,7 +23,7 @@ export default new Router({
     {
       path: '/',
       name: 'AdminPage',
-      component: Home,
+      component: HelloWorld,
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
