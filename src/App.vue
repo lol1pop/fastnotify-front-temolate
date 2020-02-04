@@ -1,13 +1,16 @@
 <template>
   <div id="app">
      <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-     <router-view />
+     <v-navigation />
   </div>
 </template>
 
 <script>
+import vNavigation from "@/views/Navigation"
 export default {
   name: 'app',
-  components: { }
+  components: {
+    vNavigation
+  }
 }
 </script>

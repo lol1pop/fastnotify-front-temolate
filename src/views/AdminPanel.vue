@@ -1,3 +1,0 @@
-<template>
-    <admin-page />
-</template>
