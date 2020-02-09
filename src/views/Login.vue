@@ -43,13 +43,13 @@ export default {
       return !!this.isUnCorrectLogin || !!this.isUnCorrectPassword || (!this.login || !this.password)
     },
     isLogged() {
-      this.log("[Login] checking in $store.state:", this.$store.getters.isAuthenticated);
+      this.log("[Login] checking in $store.state:", this.$store.getters.isAuthenticatedToken());
       this.log("[Login] checking in localstorage: ", checkIfExpired());
       const storedToken = checkIfExpired();
       if (storedToken) {
         this.$store.commit("setAuthToken", storedToken);
       }
-      return this.$store.getters.isAuthenticated;
+      return this.$store.getters.isAuthenticatedToken();
     }
   },
   methods: {
@@ -66,16 +66,6 @@ export default {
       this.$store.dispatch("authByToken", { login, password })
               .then(() => {
                 this.$router.push("/");
-              });
-    },
-    singIn() {
-      const { login, password} = this;
-      return this.$store.dispatch("authWithPolicy", { login, password })
-              .then(() => {
-                this.$router.push({path: "/"});
-              })
-              .catch((err) => {
-                this.errorSigIn = err;
               });
     },
     switchVisibility() {

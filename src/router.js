@@ -6,43 +6,36 @@ import { store } from './store';
 
 Vue.use(Router);
 
-export default new Router({
+export const router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/login',
       name: 'login',
-      component: Login,
-      beforeEnter: (to, from, next) => {
-          if (store.getters.isAuthenticatedToken) {
-            next('/');
-          }
-        next();
-      }
+      component: Login
     },
     {
       path: '/',
       name: 'AdminPage',
-      component: HelloWorld,
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticatedToken) {
-          next();
-        } else {
-          next('/login');
-        }
-      },
+      component: HelloWorld
     },
     {
       path: '/Hello',
       name: 'helloWorld',
-      component: HelloWorld,
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticatedToken) {
-          next();
-        } else {
-          next('/login');
-        }
-      }
+      component: HelloWorld
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
-  ],
-});
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login']
+  const authRequired = !publicPages.includes(to.path)
+  if (authRequired && !store.getters.isAuthenticatedToken) {
+    return next('/login');
+  }
+  next()
+})
