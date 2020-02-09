@@ -14,7 +14,7 @@ export default new Router({
       name: 'login',
       component: Login,
       beforeEnter: (to, from, next) => {
-          if (store.getters.isAuthenticated) {
+          if (store.getters.isAuthenticatedToken) {
             next('/');
           }
         next();
@@ -25,7 +25,7 @@ export default new Router({
       name: 'AdminPage',
       component: HelloWorld,
       beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
+        if (store.getters.isAuthenticatedToken) {
           next();
         } else {
           next('/login');
@@ -37,7 +37,7 @@ export default new Router({
       name: 'helloWorld',
       component: HelloWorld,
       beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
+        if (store.getters.isAuthenticatedToken) {
           next();
         } else {
           next('/login');

@@ -15,7 +15,7 @@
         <div class="error_password" v-if="!!isUnCorrectPassword">Wrong password</div>
       </div>
       <div class="error" :class="{ view: !!errorSigIn }"><span>{{ errorSigIn }}</span></div>
-      <button :disabled="isDisableButton" class="button button__sign-in" type="primary" @click="singIn">Sing In</button>
+      <button :disabled="isDisableButton" class="button button__sign-in" type="primary" @click="singInByToken">Sing In</button>
     </div>
   </div>
 </template>
