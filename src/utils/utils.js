@@ -31,6 +31,12 @@ const setInterceptor = () => {
   axios.interceptors.request.use(setAuth);
 };
 
+// Vue.prototype.$http = Axios;
+// const token = localStorage.getItem('token')
+// if (token) {
+//   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+// }
+
 const formParams = (params) => Object.keys(params).map((key) => `${key}=${params[key]}`).join('&');
 
 export {

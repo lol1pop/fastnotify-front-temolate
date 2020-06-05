@@ -37,13 +37,13 @@
       </v-dialog>
       <v-stepper
           v-model="element"
-          vertical="true"
+          vertical
       >
         <v-stepper-step
             :key="`1-step`"
             :complete="element > 1"
             step="1"
-            editable="true"
+            editable
             :color="color.main"
         >
           Step 1
@@ -98,7 +98,7 @@
             :key="`2-step`"
             :complete="element > 2"
             step="2"
-            editable="true"
+            editable
             :color="color.main"
         >
           Step 2
@@ -129,6 +129,7 @@
               <v-expansion-panel-header>Schedule alert</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <div class="d-flex">
+                  <v-switch v-model="ScheduleAlert" class="ma-4" label="Schedule alert"></v-switch>
                   <v-checkbox
                       v-model="ScheduleAlert"
                       label="Schedule alert"
@@ -294,7 +295,7 @@
             :key="`3-step`"
             :complete="element > 3"
             step="3"
-            editable="true"
+            editable
             :color="color.main"
         >
           Step 3
@@ -304,11 +305,96 @@
             :key="`3-content`"
             step="3"
         >
-          <v-card
-              class="mb-12"
-              color="grey lighten-1"
-              height="200px"
-          ></v-card>
+          <v-container
+              fluid
+              class="cart-send"
+          >
+            <v-row align="center">
+              <v-col
+                     cols="12"
+                     md="4">
+                <v-card class="cart-user">
+                  <v-text-field
+                      color="success"
+                      :loading="loading.user"
+                      prepend-icon="mdi-magnify"
+                      label="Search"
+                      v-model="search.users"
+                      @input="getListUsers()"
+                  >
+                  </v-text-field>
+                  <v-simple-table fixed-header height="450px" >
+                      <template v-slot:default>
+                        <thead>
+                        <tr>
+                          <th class="text-left">Display Name</th>
+                          <th class="text-left">Name</th>
+                          <th class="text-left">Online</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in senders.users" :key="item.login">
+                          <td>{{ item.display_name }}</td>
+                          <td>{{ item.login }}</td>
+                          <td>{{ item.online }}</td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  <div class="text-center">
+                    <v-pagination
+                        v-model="pageable.pageUser"
+                        circle
+                        :page="pageable.pageUser"
+                        :length="optionalPageUser.lengthPage"
+                        :total-visible="optionalPageUser.totalVisiblePage"
+                        @input="getListUsers"
+                    ></v-pagination>
+                  </div>
+                </v-card>
+              </v-col>
+              <v-col
+                     cols="12"
+                     md="4">
+                <v-card class="cart-group">
+                  <v-text-field
+                      color="success"
+                      :loading="loading.group"
+                      prepend-icon="mdi-magnify"
+                      label="Search"
+                      v-model="search.groups"
+                      @input="getListGroups()"
+                  ></v-text-field>
+                  <v-simple-table fixed-header height="450px" >
+                    <template v-slot:default>
+                      <thead>
+                      <tr>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">ID</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="item in senders.groups" :key="item.name">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.group_id }}</td>
+                      </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <div class="text-center">
+                    <v-pagination
+                        v-model="pageable.pageGroup"
+                        circle
+                        :page="pageable.pageGroup"
+                        :length="optionalPageGroup.lengthPage"
+                        :total-visible="optionalPageGroup.totalVisiblePage"
+                        @input="getListGroups"
+                    ></v-pagination>
+                  </div>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container >
           <v-btn text>Cancel</v-btn>
         </v-stepper-content>
       </v-stepper>
@@ -358,7 +444,32 @@ export default {
         }
       },
       content: dedent`<span class="ql-font-serif" style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> I am snow example! </span></h1><p><br>`,
-      textCode: dedent`<p><br></p>>`
+      textCode: dedent`<p><br></p>>`,
+      optionalPageUser: {
+        totalVisiblePage: 7,
+        lengthPage: 5,
+      },
+      optionalPageGroup: {
+        totalVisiblePage: 4,
+        lengthPage: 2,
+      },
+      loading: {
+        user: true,
+        group: true
+      },
+      pageable: {
+        maxItems: 20,
+        pageGroup: 1,
+        pageUser: 1,
+      },
+      senders: {
+        users: [],
+        groups: []
+      },
+      search: {
+        users: "",
+        groups: ""
+      }
     }
   },
   watch: {
@@ -389,6 +500,29 @@ export default {
     saveCode(){
       this.content = this.textCode
     },
+    createQueryParam( limit, page, search) {
+      if(search !== "")
+        return "?per="+limit+"&page="+page+"&like="+search+"&pol=1"
+      return "?per="+limit+"&page="+page+"&pol=1"
+    },
+    getListUsers() {
+      this.loading.user = true
+      this.$store.dispatch("getListUsers", this.createQueryParam(this.pageable.maxItems,this.pageable.pageUser, this.search.users))
+      .then(() => {
+        this.senders.users = this.$store.getters.listUsers.list
+        this.optionalPageUser.lengthPage = this.$store.getters.listUsers.pages
+        this.loading.user = false
+      })
+    },
+    getListGroups() {
+      this.loading.group = true
+      this.$store.dispatch("getListGroups", this.createQueryParam(this.pageable.maxItems,this.pageable.pageGroup, this.search.groups))
+        .then(() => {
+          this.senders.groups = this.$store.getters.listGroup.list
+          this.optionalPageGroup.lengthPage = this.$store.getters.listGroup.pages
+          this.loading.group = false
+        })
+    }
   },
   computed: {
     contentCode() {
@@ -396,6 +530,10 @@ export default {
     }
   },
   mounted() {
+  },
+  created: function () {
+    this.getListUsers()
+    this.getListGroups()
   }
 }
 </script>
@@ -439,5 +577,19 @@ code {
   height: 200px;
   width: 200px;
 }
-
+.cart-user {
+  margin: 10px;
+  height: 600px;
+  width: 600px;
+  padding: 16px;
+}
+.cart-group {
+  margin: 10px;
+  height: 600px;
+  width: 400px;
+  padding: 16px;
+}
+.cart-send {
+  width: 100%;
+}
 </style>
