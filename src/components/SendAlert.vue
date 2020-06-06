@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <v-card-text>
       <v-text-field
           color="success"
@@ -267,6 +270,7 @@ export default {
   },
   data() {
     return{
+      overlay: false,
       dialog: false,
       dialogSend: false,
       loading: true,
@@ -361,11 +365,27 @@ export default {
         })
     },
     getColor: (online) => online ? 'green' : 'grey',
+    removeAlertFormListId(list) {
+      const id = list[0]
+      const subarray = list.splice(0, 1)
+      axios.delete(`api/alerts/${id}`)
+        .then(() => {
+            this.removeAlertFormListId(subarray)
+      }).catch( err => {
+        this.overlay = false
+        throw err
+      })
+    },
     deleteItem() {
-      const alertId = this.selectedAlert.map(item => item.alert_id)
-      axios.post("", { data: alertId })
-      //const index = this.desserts.indexOf(item)
+      this.overlay = true
+      //const alertId = this.selectedAlert.map(item => item.alert_id)
+      //this.removeAlertFormListId(alertId)
+      this.selectedAlert.forEach((alert) => {
+        const indexDel = this.listAlerts.indexOf(alert)
+        this.listAlerts.splice(indexDel,1)
+      })
       //confirm('Are you sure you want to delete this item? ') && this.desserts.splice(index, 1)
+      this.overlay = false
     },
     resendItem(item) {
       this.viewItem = item //Object.assign({}, item)
