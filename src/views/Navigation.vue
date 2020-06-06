@@ -115,7 +115,7 @@ export default {
   data: () => ({
     items: [
       {text: "Create alert", icon: "mdi-application", link: "/created-alert"},
-      {text: "Send alert", icon: "mdi-application-export"},
+      {text: "Send alert", icon: "mdi-application-export", link: "/send-alert"},
       {text: "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
       {text: "Template alert", icon: "mdi-animation-outline"},
       {divider: true},

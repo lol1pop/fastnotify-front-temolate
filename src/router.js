@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import HelloWorld from "@/components/HelloWorld"
 import CreateAlert from "@/components/CreateAlert"
+import SendAlert from "@/components/SendAlert"
 import { store } from './store';
 
 Vue.use(Router);
@@ -24,6 +25,11 @@ export const router = new Router({
       path: '/created-alert',
       name: 'Create Alert',
       component: CreateAlert
+    },
+    {
+      path: "/send-alert",
+      name: 'Send Alert',
+      component: SendAlert
     },
     {
       path: '/Hello',

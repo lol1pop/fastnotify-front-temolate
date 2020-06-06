@@ -56,6 +56,14 @@
           <v-card
               class="mb-5 cart-editor"
           >
+            <v-text-field
+                v-model="titleAlert"
+                label="Title"
+                :rules="nameRules"
+                counter
+                success
+                required
+            ></v-text-field>
             <quill-editor
                 class="editor"
                 :value="content"
@@ -87,6 +95,7 @@
           <v-btn class="continue btn"
               :color="color.main"
               @click="nextStep(1)"
+                 :disabled="!isValid"
           >
             Continue
           </v-btn>
@@ -403,6 +412,7 @@
           <v-btn class="continue btn send"
                  :color="color.main"
                  @click="saveAndSendAlert"
+                 :disabled="!isValid"
           >Send</v-btn>
           <v-btn text>Cancel</v-btn>
         </v-stepper-content>
@@ -429,6 +439,14 @@ export default {
       element: 1,
       steps: 3,
       dialogErrorStep1: false,
+      titleAlert: "",
+      isValid: false,
+      nameRules: [
+        v => {
+          this.isValid = !!v
+          return !!v || "Name is required"
+        }
+      ],
       color: {
         background: mainColorTheme.background,
         main: mainColorTheme.main,
@@ -452,8 +470,8 @@ export default {
           }
         }
       },
-      content: dedent`<span class="ql-font-serif" style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> I am snow example! </span></h1><p><br>`,
-      textCode: dedent`<p><br></p>>`,
+      content: dedent`<p></p>`,
+      textCode: dedent`<span class="ql-font-serif" style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> I am snow example! </span></h1><p><br>`,
       optionalPageUser: {
         totalVisiblePage: 7,
         lengthPage: 5,
@@ -556,6 +574,7 @@ export default {
         })
     },
     saveAndSendAlert() {
+      if (this.isValid)
       this.saveAlert().then(alertId => {
         this.sendAlert(alertId)
         this.$router.push("/")
@@ -564,7 +583,7 @@ export default {
     saveAlert() {
       const alert = modelAlert
       alert.alert.content = this.content
-      alert.alert.title = "title"
+      alert.alert.title = this.titleAlert
       alert.alert.create_id = this.$store.getters.getUserId
       alert.alert_settings.priority = false
       alert.alert_settings.unobtrusive = false
@@ -610,8 +629,6 @@ export default {
     }
   },
   mounted() {
-  },
-  created: function () {
     this.getListUsers()
     this.getListGroups()
   }
@@ -632,7 +649,7 @@ export default {
 }
 .editor {
   height: 400px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 code {
   width: 100%;
