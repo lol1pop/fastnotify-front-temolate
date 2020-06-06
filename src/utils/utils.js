@@ -7,14 +7,14 @@ const updateTime = 1000 * 60 * 60 * 24; // 24h
 
 const checkIfExpired = () => {
   const expireTime = localStorage.accessTokenExpire;
-  if (expireTime && !(Date.now() - expireTime < updateTime)) {
+  if (expireTime && !(Date.now() - expireTime < updateTime) && !!localStorage.accessToken) {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('accessTokenExpire');
     store.dispatch('logout').then(() => {
       router.push("/");
     });
   }
-  return localStorage.accessToken || undefined;
+  return localStorage.accessToken;
 };
 
 const setInterceptor = () => {

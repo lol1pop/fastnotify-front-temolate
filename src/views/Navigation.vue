@@ -144,6 +144,9 @@ export default {
       light: mainColorTheme.light,
     },
   }),
+  created() {
+    this.$store.dispatch("checkLogged")
+  }
 }
 </script>
 

@@ -1,8 +1,8 @@
 import Vuex from "vuex";
 import Vue from "vue";
 import axios from "axios";
-import { setInterceptor } from "./utils/utils";
-
+import {checkIfExpired, setInterceptor} from "./utils/utils"
+import VueJwtDecode from 'vue-jwt-decode'
 
 const storedToken = localStorage.accessToken || false;
 const expireTime = localStorage.accessTokenExpire;
@@ -15,6 +15,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     authToken: storedToken || null,
+    userId: null,
     listSenders: {
       user: null,
       group: null
@@ -23,6 +24,7 @@ export const store = new Vuex.Store({
   mutations: {
     setAuthToken: (state, { token }) => {
       state.authToken = token
+      state.userId = parseInt(VueJwtDecode.decode(token)["unique_name"],10)
     },
     setListUserOrGroup: (state, { nameList, list }) => {
       state.listSenders[nameList] = list
@@ -46,6 +48,8 @@ export const store = new Vuex.Store({
         localStorage.setItem("accessToken", token)
         localStorage.setItem("accessTokenExpire", Date.now())
       }).catch(err => {
+        // eslint-disable-next-line no-console
+        console.log("STORE::authByToken::ERROR", err)
         commit("setAuthToken", { token: null })
         localStorage.removeItem("accessToken")
         localStorage.removeItem("accessTokenExpire")
@@ -77,11 +81,18 @@ export const store = new Vuex.Store({
           console.log("STORE::LISTGROUP::ERROR", err)
           throw err
         })
+    },
+    checkLogged({commit}) {
+      const token = checkIfExpired()
+      if (token) {
+        commit("setAuthToken", { token })
+      }
     }
   },
   getters: {
     isAuthenticatedToken: state => !!state.authToken,
     listUsers: state => state.listSenders.user,
     listGroup: state => state.listSenders.group,
+    getUserId: state => state.userId
   }
 });

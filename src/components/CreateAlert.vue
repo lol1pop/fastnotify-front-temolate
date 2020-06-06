@@ -116,11 +116,13 @@
                   <v-checkbox
                       v-model="hidePriority"
                       label="Hide Priority"
+                      :color="color.main"
                   ></v-checkbox>
                   <v-checkbox
                       class="mt-0"
                       v-model="selfDestructing"
                       label="Self-destructing alert"
+                      :color="color.main"
                   ></v-checkbox>
                 </div>
               </v-expansion-panel-content>
@@ -129,23 +131,19 @@
               <v-expansion-panel-header>Schedule alert</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <div class="d-flex">
-                  <v-switch v-model="ScheduleAlert" class="ma-4" label="Schedule alert"></v-switch>
-                  <v-checkbox
-                      v-model="ScheduleAlert"
-                      label="Schedule alert"
-                  ></v-checkbox>
+                  <v-switch v-model="ScheduleAlert" class="ma-4" label="Schedule alert" :color="color.main"></v-switch>
                 </div>
                 <div class="block-schedule" v-if="ScheduleAlert">
                   <v-card class="pattern">
                     <v-card-text>Pattern</v-card-text>
                     <v-divider></v-divider>
                     <v-card-text class="cart-radios" >
-                      <v-radio-group class="mt-0" v-model="pattern" column>
-                        <v-radio label="once" value="bahamas"></v-radio>
-                        <v-radio label="dayle" value="bahrain"></v-radio>
-                        <v-radio label="weekly" value="bangladesh"></v-radio>
-                        <v-radio label="mouthy" value="barbados"></v-radio>
-                        <v-radio label="yearly" value="belarus"></v-radio>
+                      <v-radio-group class="mt-0" v-model="pattern" column >
+                        <v-radio label="once" value="bahamas" :color="color.main"></v-radio>
+                        <v-radio label="dayle" value="bahrain" :color="color.main"></v-radio>
+                        <v-radio label="weekly" value="bangladesh" :color="color.main"></v-radio>
+                        <v-radio label="mouthy" value="barbados" :color="color.main"></v-radio>
+                        <v-radio label="yearly" value="belarus" :color="color.main"></v-radio>
                       </v-radio-group>
                     </v-card-text>
                     <v-divider></v-divider>
@@ -175,24 +173,26 @@
                             outlined
                             hide-details
                             v-on="on"
+                            :color="color.main"
                         ></v-text-field>
                       </template>
                       <v-date-picker
                           v-model="start"
                           no-title
                           scrollable
+                          :color="color.main"
                       >
                         <v-spacer></v-spacer>
                         <v-btn
                             text
-                            color="primary"
+                            :color="color.main"
                             @click="startMenu = false"
                         >
                           Cancel
                         </v-btn>
                         <v-btn
                             text
-                            color="primary"
+                            :color="color.main"
                             @click="$refs.startMenu.save(start)"
                         >
                           OK
@@ -220,24 +220,26 @@
                             outlined
                             hide-details
                             v-on="on"
+                            :color="color.main"
                         ></v-text-field>
                       </template>
                       <v-date-picker
                           v-model="end"
                           no-title
                           scrollable
+                          :color="color.main"
                       >
                         <v-spacer></v-spacer>
                         <v-btn
                             text
-                            color="primary"
+                            :color="color.main"
                             @click="endMenu = false"
                         >
                           Cancel
                         </v-btn>
                         <v-btn
                             text
-                            color="primary"
+                            :color="color.main"
                             @click="$refs.endMenu.save(end)"
                         >
                           OK
@@ -265,15 +267,17 @@
                               outlined
                               hide-details
                               v-on="on"
+                              :color="color.main"
                           ></v-text-field>
                         </template>
                         <v-time-picker
                             v-model="time"
                             format="24hr"
+                            :color="color.main"
                         >
                           <v-spacer></v-spacer>
-                          <v-btn text color="primary" @click="timeMenu = false">Cancel</v-btn>
-                          <v-btn text color="primary" @click="$refs.timeMenu.save(time)">OK</v-btn>
+                          <v-btn text :color="color.main" @click="timeMenu = false">Cancel</v-btn>
+                          <v-btn text :color="color.main" @click="$refs.timeMenu.save(time)">OK</v-btn>
                         </v-time-picker>
                       </v-menu>
                     </v-card-text>
@@ -311,9 +315,10 @@
           >
             <v-row align="center">
               <v-col
-                     cols="12"
-                     md="4">
+                  cols="12"
+                  md="4">
                 <v-card class="cart-user">
+
                   <v-text-field
                       color="success"
                       :loading="loading.user"
@@ -323,24 +328,22 @@
                       @input="getListUsers()"
                   >
                   </v-text-field>
-                  <v-simple-table fixed-header height="450px" >
-                      <template v-slot:default>
-                        <thead>
-                        <tr>
-                          <th class="text-left">Display Name</th>
-                          <th class="text-left">Name</th>
-                          <th class="text-left">Online</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="item in senders.users" :key="item.login">
-                          <td>{{ item.display_name }}</td>
-                          <td>{{ item.login }}</td>
-                          <td>{{ item.online }}</td>
-                        </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
+                  <v-data-table
+                      fixed-header
+                      height="450px"
+                      v-model="selected.users"
+                      :headers="headers.users"
+                      :items="senders.users"
+                      item-key="user_id"
+                      show-select
+                      class="elevation-1 mb-2"
+                      hide-default-footer
+                      :items-per-page="pageable.maxItems"
+                  >
+                    <template v-slot:item.online="{ item }">
+                      <v-icon :color="getColor(item.online)">mdi-contactless-payment</v-icon>
+                    </template>
+                  </v-data-table>
                   <div class="text-center">
                     <v-pagination
                         v-model="pageable.pageUser"
@@ -348,15 +351,18 @@
                         :page="pageable.pageUser"
                         :length="optionalPageUser.lengthPage"
                         :total-visible="optionalPageUser.totalVisiblePage"
+                        :color="color.main"
                         @input="getListUsers"
                     ></v-pagination>
                   </div>
+
                 </v-card>
               </v-col>
               <v-col
-                     cols="12"
-                     md="4">
+                  cols="12"
+                  md="4">
                 <v-card class="cart-group">
+
                   <v-text-field
                       color="success"
                       :loading="loading.group"
@@ -365,22 +371,19 @@
                       v-model="search.groups"
                       @input="getListGroups()"
                   ></v-text-field>
-                  <v-simple-table fixed-header height="450px" >
-                    <template v-slot:default>
-                      <thead>
-                      <tr>
-                        <th class="text-left">Name</th>
-                        <th class="text-left">ID</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-for="item in senders.groups" :key="item.name">
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.group_id }}</td>
-                      </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
+                  <v-data-table
+                      fixed-header
+                      height="450px"
+                      v-model="selected.groups"
+                      :headers="headers.groups"
+                      :items="senders.groups"
+                      item-key="group_id"
+                      show-select
+                      class="elevation-1 mb-2"
+                      hide-default-footer
+                      :items-per-page="pageable.maxItems"
+                  >
+                  </v-data-table>
                   <div class="text-center">
                     <v-pagination
                         v-model="pageable.pageGroup"
@@ -388,13 +391,19 @@
                         :page="pageable.pageGroup"
                         :length="optionalPageGroup.lengthPage"
                         :total-visible="optionalPageGroup.totalVisiblePage"
+                        :color="color.main"
                         @input="getListGroups"
                     ></v-pagination>
                   </div>
+
                 </v-card>
               </v-col>
             </v-row>
-          </v-container >
+          </v-container>
+          <v-btn class="continue btn send"
+                 :color="color.main"
+                 @click="saveAndSendAlert"
+          >Send</v-btn>
           <v-btn text>Cancel</v-btn>
         </v-stepper-content>
       </v-stepper>
@@ -403,11 +412,11 @@
 </template>
 
 <script>
-import { mainColorTheme } from "../utils/consts"
-import { toolbarOptions } from "../utils/consts"
+import { mainColorTheme, modelAlert, toolbarOptions, setAlert} from "../utils/consts"
 import { quillEditor } from 'vue-quill-editor'
 import hljs from "highlight.js"
 import dedent from 'dedent'
+import axios from "axios";
 
 export default {
   name: "CreateAlert",
@@ -426,8 +435,8 @@ export default {
         dark: mainColorTheme.dark,
         light: mainColorTheme.light,
       },
-      hidePriority: false,
-      selfDestructing: false,
+      hidePriority: this.hidePriority,
+      selfDestructing: this.selfDestructing,
       ScheduleAlert: false,
       startMenu: false,
       start: "2020-01-12",
@@ -469,7 +478,29 @@ export default {
       search: {
         users: "",
         groups: ""
-      }
+      },
+      selected: {
+        users: [],
+        groups: []
+      },
+      headers: {
+        users: [{
+          text: 'Display name',
+          align: 'start',
+          sortable: true,
+          value: 'display_name',
+        },
+          { text: 'Name', value: 'login' },
+          { text: 'Online', value: 'online' }],
+        groups: [{
+          text: 'Name',
+          align: 'start',
+          sortable: true,
+          value: 'name',
+        },
+          { text: 'ID', value: 'group_id' }]
+      },
+      singleSelect: true,
     }
   },
   watch: {
@@ -509,7 +540,8 @@ export default {
       this.loading.user = true
       this.$store.dispatch("getListUsers", this.createQueryParam(this.pageable.maxItems,this.pageable.pageUser, this.search.users))
       .then(() => {
-        this.senders.users = this.$store.getters.listUsers.list
+        const onlinelist = ["rostic", "ping", "kirill", "admin"]
+        this.senders.users = this.$store.getters.listUsers.list.map(v => Object.assign(v, { online: onlinelist.includes(v.login) }))
         this.optionalPageUser.lengthPage = this.$store.getters.listUsers.pages
         this.loading.user = false
       })
@@ -522,7 +554,55 @@ export default {
           this.optionalPageGroup.lengthPage = this.$store.getters.listGroup.pages
           this.loading.group = false
         })
-    }
+    },
+    saveAndSendAlert() {
+      this.saveAlert().then(alertId => {
+        this.sendAlert(alertId)
+        this.$router.push("/")
+      })
+    },
+    saveAlert() {
+      const alert = modelAlert
+      alert.alert.content = this.content
+      alert.alert.title = "title"
+      alert.alert.create_id = this.$store.getters.getUserId
+      alert.alert_settings.priority = false
+      alert.alert_settings.unobtrusive = false
+      alert.schedule_alert.schedule = this.ScheduleAlert
+      alert.schedule_alert.pattern = 1
+      alert.type = 1
+      // eslint-disable-next-line no-console
+      console.log("SAVE",alert)
+      return axios.post("/api/alerts/save", alert)
+        .then(res => {
+          // eslint-disable-next-line no-console
+          console.log("SUCCESS SAVE",res.status,res.data)
+          return res.data.alert_id
+        })
+        .catch(err => {
+          throw err
+        })
+    },
+    sendAlert(id) {
+      const alert = setAlert
+      alert.alert_id = id
+      alert.sender_id = this.$store.getters.getUserId
+      alert.groupList = this.selected.groups.map(group => parseInt(group.group_id, 10))
+      alert.userList = this.selected.users.map(user => user.user_id)
+      // eslint-disable-next-line no-console
+      console.log("SEND",alert)
+      axios.post("/api/alerts/send", alert)
+        .then(res => {
+          // eslint-disable-next-line no-console
+          console.log("SEND")
+          // eslint-disable-next-line no-console
+          console.log("SUCCESS SEND",res.status)
+        })
+        .catch(err => {
+          throw err
+        })
+    },
+    getColor: (online) => online ? 'green' : 'grey'
   },
   computed: {
     contentCode() {

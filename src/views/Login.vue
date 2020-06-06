@@ -1,53 +1,36 @@
 <template>
-  <v-form v-model="valid">
+  <v-container>
     <div class="auth-container">
       <div class="auth">
         <div id="logo"></div>
         <span class="sign-in">Sign in</span>
-        <div class="wrapper__sign-in wrapper_login_sign-in" :class="{ err:!!isUnCorrectLogin }">
-          <h3>Login</h3>
-          <input required v-model="login" @input="checkCorrectLogin" type="text" placeholder="Email" id="user-login" />
-          <div class="error_login" v-if="!!isUnCorrectLogin">Wrong login</div>
-        </div>
-        <div class="wrapper__sign-in wrapper_password_sign-in" :class="{ err:!!isUnCorrectPassword }">
-          <h3>Password</h3>
-          <input required v-model="password" @input="checkCorrectPassword" :type="passwordFieldType" placeholder="Password" />
-          <button class="button button__eye" :class="{ view: isActiveEye }" @click="switchVisibility"/>
-          <div class="error_password" v-if="!!isUnCorrectPassword">Wrong password</div>
-        </div>
-        <div class="error" :class="{ view: !!errorSigIn }"><span>{{ errorSigIn }}</span></div>
-        <button :disabled="isDisableButton" class="button button__sign-in" type="primary" @click="singInByToken">Sing In</button>
+        <v-card-text class="auth-fields"
+        @click="test">
+          <v-text-field
+              v-model="login"
+              :rules="nameRules"
+              counter
+              label="Login"
+              success
+              required
+          ></v-text-field>
+          <v-text-field
+              v-model="password"
+              :rules="nameRules"
+              counter
+              :type="isActiveEye ? 'text' : 'password'"
+              :append-icon="isActiveEye ? 'mdi-eye' : 'mdi-eye-off'"
+              label="Password"
+              hint="At least 4 characters"
+              success
+              required
+              @click:append="isActiveEye = !isActiveEye"
+          ></v-text-field>
+        </v-card-text>
+        <button :disabled="!isValid1 || !isValid2 || !isValid3 || !password" class="button button__sign-in" type="primary" @click="singInByToken">Sing In</button>
       </div>
     </div>
-    <v-container>
-      <v-row>
-        <v-col
-            cols="12"
-            md="4"
-        >
-          <v-text-field
-              v-model="firstname"
-              :rules="nameRules"
-              :counter="10"
-              label="First name"
-              required
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-            cols="12"
-            md="4"
-        >
-          <v-text-field
-              v-model="lastname"
-              :rules="nameRules"
-              label="Last name"
-              required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+  </v-container>
 </template>
 
 <script>
@@ -63,21 +46,29 @@ export default {
       password: undefined,
       passwordFieldType: "password",
       isActiveEye: false,
-      isUnCorrectLogin: false,
-      isUnCorrectPassword: false,
       errorSigIn: "",
-      valid: false,
-      firstname: '',
-      lastname: '',
+      isValid1: false,
+      isValid2: false,
+      isValid3: false,
       nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters',
+        v => {
+          this.isValid1 = !!v
+          return !!v || "Name is required"
+        },
+        v => {
+          this.isValid2 = !!v && v.length >= 4
+          return !!v && v.length >= 4 || "Name must be at less than 4 characters"
+        },
+        v => {
+          this.isValid3 = correctRegExp.test(v)
+          return correctRegExp.test(v) || "Name not must be symbols"
+        }
       ]
     }
   },
   computed: {
     isDisableButton() {
-      return !!this.isUnCorrectLogin || !!this.isUnCorrectPassword || (!this.login || !this.password)
+      return this.isValid
     },
     isLogged() {
       this.log("[Login] checking in $store.state:", this.$store.getters.isAuthenticatedToken())
@@ -90,19 +81,9 @@ export default {
     },
   },
   methods: {
-    checkCorrectLogin() {
-      if (this.login.length === 0) {
-        this.isUnCorrectLogin = false
-        return
-      }
-      this.isUnCorrectLogin = this.login.length < 3 || !correctRegExp.test(this.login)
-    },
-    checkCorrectPassword() {
-      if (this.password.length === 0) {
-        this.isUnCorrectPassword = false
-        return
-      }
-      this.isUnCorrectPassword = this.password.length < 3 || !correctRegExp.test(this.password)
+    test() {
+      // eslint-disable-next-line no-console
+      console.log()
     },
     singInByToken() {
       const {login, password} = this
@@ -111,11 +92,7 @@ export default {
           this.$router.push("/")
         })
     },
-    switchVisibility() {
-      this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password"
-      this.isActiveEye = this.passwordFieldType === "text"
-    },
-  },
+  }
 }
 </script>
 
@@ -141,6 +118,10 @@ export default {
   padding: 0.1px 0 0 30px;
   overflow: hidden;
   position: relative;
+}
+.auth-fields {
+  margin-top: 25px;
+  padding-left: 0px;
 }
 
 * {
