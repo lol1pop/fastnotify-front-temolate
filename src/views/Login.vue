@@ -195,7 +195,6 @@ input {
 
 .button__eye {
   opacity: 0.70;
-  background-image: url(../assets/eye.png);
   position: absolute;
   border-radius: 7px;
   width: 16px;
@@ -206,7 +205,6 @@ input {
 }
 
 .button__eye.view {
-  background-image: url(../assets/eye_off.png);
 }
 
 .button:disabled {
