@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Login from './views/Login.vue';
 import HelloWorld from "@/components/HelloWorld"
+import CreateAlert from "@/components/CreateAlert"
 import { store } from './store';
 
 Vue.use(Router);
@@ -18,6 +19,11 @@ export const router = new Router({
       path: '/',
       name: 'AdminPage',
       component: HelloWorld
+    },
+    {
+      path: '/created-alert',
+      name: 'Create Alert',
+      component: CreateAlert
     },
     {
       path: '/Hello',

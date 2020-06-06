@@ -98,6 +98,7 @@
 
 
 <script>
+import { mainColorTheme } from "../utils/consts"
 
 export default {
   name: "Nav",
@@ -113,7 +114,7 @@ export default {
   },
   data: () => ({
     items: [
-      {text: "Create alert", icon: "mdi-application", link: "/Hello"},
+      {text: "Create alert", icon: "mdi-application", link: "/created-alert"},
       {text: "Send alert", icon: "mdi-application-export"},
       {text: "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
       {text: "Template alert", icon: "mdi-animation-outline"},
@@ -137,13 +138,15 @@ export default {
       miniVariant: true,
     },
     color: {
-      background: "#232323",
-      main: "#1b5e20",
-      secondary: "#",
-      dark: "#353535",
-      light: "#424242",
+      background: mainColorTheme.background,
+      main: mainColorTheme.main,
+      dark: mainColorTheme.dark,
+      light: mainColorTheme.light,
     },
   }),
+  created() {
+    this.$store.dispatch("checkLogged")
+  }
 }
 </script>
 
