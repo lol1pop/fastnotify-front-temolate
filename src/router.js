@@ -4,6 +4,8 @@ import Login from './views/Login.vue';
 import HelloWorld from "@/components/HelloWorld"
 import CreateAlert from "@/components/CreateAlert"
 import SendAlert from "@/components/SendAlert"
+import Publishers from "@/components/Publishers"
+import Groups from "@/components/Groups"
 import { store } from './store';
 
 Vue.use(Router);
@@ -30,6 +32,16 @@ export const router = new Router({
       path: "/send-alert",
       name: 'Send Alert',
       component: SendAlert
+    },
+    {
+      path: "/publishers",
+      name: 'Publishers',
+      component: Publishers
+    },
+    {
+      path: "/groups",
+      name: 'Groups',
+      component: Groups
     },
     {
       path: '/Hello',

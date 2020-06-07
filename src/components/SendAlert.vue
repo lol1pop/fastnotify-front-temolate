@@ -109,8 +109,8 @@
           </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeSend">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="save">Send</v-btn>
+            <v-btn color="green darken-1" text @click="closeSend">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="save">Send</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -157,8 +157,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="resendItem">Send</v-btn>
+            <v-btn color="green darken-1" text @click="close">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="resend">Send</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -393,6 +393,11 @@ export default {
       this.getListUsers()
       this.getListGroups()
     },
+    resend() {
+      this.dialogSend = true
+      this.getListUsers()
+      this.getListGroups()
+    },
     stopOrStartItem(item) {
       !!item
     },
@@ -401,12 +406,10 @@ export default {
       this.dialog = true
     },
     save() {
-      if (this.editedIndex > -1) {
-       // Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-       // this.desserts.push(this.editedItem)
-      }
+      this.sendAlert(this.viewItem.alert_id)
+      //if (this.editedIndex > -1) {// Object.assign(this.desserts[this.editedIndex], this.editedItem)} else {// this.desserts.push(this.editedItem)}
       this.close()
+      this.closeSend()
     },
     closeSend() {
       this.dialogSend = false
