@@ -121,7 +121,7 @@ export default {
       {divider: true},
       {text: "Surveys alert", icon: "mdi-ballot-outline"},
       {divider: true},
-      {text: "Publishers List", icon: "mdi-account-tie-voice-outline", link: "/publishers"},
+      {text: "Publisher List", icon: "mdi-account-tie-voice-outline", link: "/publishers"},
       {text: "Group List", icon: "mdi-account-group", link: "/groups"},
       {text: "Policies", icon: "mdi-account-badge-alert-outline"},
       {divider: true},

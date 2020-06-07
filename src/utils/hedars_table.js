@@ -51,13 +51,13 @@ const headerTablePublisher = [{
 ]
 
 const headerTableGroups = [{
-  text: "Display name",
+  text: "Name",
   align: "start",
   sortable: true,
-  value: "display_name",
+  value: "name",
 },
-  {text: "Name", value: "login"},
-  {text: "Online", value: "online"}]
+  {text: "ID", value: "group_id"},
+  { text: 'Actions', value: 'actions', sortable: false}]
 
 export {
   typePolicyRule,

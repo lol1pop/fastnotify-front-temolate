@@ -15,7 +15,7 @@
         </v-card>
       </v-dialog>
     </v-row>
-    <v-row>
+    <v-row >
       <v-card
           width="450px"
           class="ma-3"
