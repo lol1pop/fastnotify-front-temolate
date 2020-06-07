@@ -21,11 +21,11 @@
       </div>
       <v-spacer/>
       <v-btn
-          href="https://github.com/vuetifyjs/vuetify/releases/latest"
           target="_blank"
           text
+          @click="logout"
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2">Logout</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -37,6 +37,7 @@
         :expand-on-hover="primaryDrawer.expandOnHover"
         :mini-variant="primaryDrawer.miniVariant"
         :clipped="primaryDrawer.clipped"
+        permanent
         v-if="showInterface"
     >
       <v-list
@@ -119,13 +120,14 @@ export default {
       {text: "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
       {text: "Template alert", icon: "mdi-animation-outline"},
       {divider: true},
-      {text: "Surveys alert", icon: "mdi-ballot-outline"},
+      {text: "Dashboard", icon: "mdi-ballot-outline", link: "/"},
       {divider: true},
-      {text: "Publishers List", icon: "mdi-account-tie-voice-outline"},
-      {text: "Policies", icon: "mdi-account-badge-alert-outline"},
+      {text: "Add Users", icon: "mdi-account-outline", link: "/add-users"},
+      {text: "Publisher List", icon: "mdi-account-tie-voice-outline", link: "/publishers"},
+      {text: "Group List", icon: "mdi-account-group", link: "/groups"},
       {divider: true},
       {text: "Reports", icon: "mdi-chart-bell-curve-cumulative"},
-      {text: "Help", icon: "mdi-help"},
+      {text: "Help", icon: "mdi-help", link: "/help"},
       {divider: true},
     ],
     primaryDrawer: {
@@ -144,6 +146,14 @@ export default {
       light: mainColorTheme.light,
     },
   }),
+  methods: {
+    logout() {
+      this.$store.dispatch("logout")
+        .then(() => {
+          this.$router.push("/login")
+        })
+    }
+  },
   created() {
     this.$store.dispatch("checkLogged")
   }

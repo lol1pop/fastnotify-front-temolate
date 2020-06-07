@@ -35,7 +35,34 @@ const typeAlert = {
   "5": "mdi-calendar-blank-multiple"
 }
 
+const typePolicyRule = [
+  "ADMIN",
+  "SYSADMIN",
+  "USER"
+]
+
+const headerTablePublisher = [{
+  text: "Login",
+  align: "start",
+  value: "login",
+},
+  {text: "Role", value: "role"},
+  { text: 'Actions', value: 'actions', sortable: false }
+]
+
+const headerTableGroups = [{
+  text: "Name",
+  align: "start",
+  sortable: true,
+  value: "name",
+},
+  {text: "ID", value: "group_id"},
+  { text: 'Actions', value: 'actions', sortable: false}]
+
 export {
+  typePolicyRule,
+  headerTablePublisher,
+  headerTableGroups,
   headersTableUserGroup,
   typeAlert,
   headersTableAlert
