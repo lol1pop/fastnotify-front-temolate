@@ -161,9 +161,7 @@ export default {
         }
       ],
       typePolicyRule: typePolicyRule,
-      passwordFieldType: "password",
       isActiveEye: false,
-
     }
   },
   methods: {

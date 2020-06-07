@@ -122,6 +122,7 @@ export default {
       {divider: true},
       {text: "Dashboard", icon: "mdi-ballot-outline", link: "/"},
       {divider: true},
+      {text: "Add Users", icon: "mdi-account-outline", link: "/add-users"},
       {text: "Publisher List", icon: "mdi-account-tie-voice-outline", link: "/publishers"},
       {text: "Group List", icon: "mdi-account-group", link: "/groups"},
       {divider: true},

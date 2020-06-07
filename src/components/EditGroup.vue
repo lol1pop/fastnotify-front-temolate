@@ -130,7 +130,7 @@ export default {
           this.pushToSelected(unique)
           this.getListUsers()
         })
-    }
+    },
   },
   methods: {
     createQueryParam( limit, page, search) {
@@ -140,11 +140,15 @@ export default {
     },
     getListUsers() {
       this.loading = true
-      this.$store.dispatch("getListUsers", this.createQueryParam(16,1, ""))
+      this.$store.dispatch("getListUsers", this.createQueryParam(16, 1, ""))
         .then(() => {
           this.userList = this.$store.getters.listUsers.list
-          //this.pageCount = this.$store.getters.listUsers.pages//todo
-          this.loading = false
+          this.pageCount = this.$store.getters.listUsers.pages//todo
+          this.$store.dispatch("getListUsers", this.createQueryParam(16, this.pageCount, ""))
+            .then(() => {
+              this.userList = this.userList.concat(this.$store.getters.listUsers.list)
+              this.loading = false
+            })
         })
     },
     getListUserToId(id) {

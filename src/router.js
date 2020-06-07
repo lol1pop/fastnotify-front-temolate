@@ -8,6 +8,7 @@ import Publishers from "@/components/Publishers"
 import Groups from "@/components/Groups"
 import Dashboard from "@/components/Dashboard"
 import { store } from './store';
+import AddUsers from "@/components/CreatedUser"
 
 Vue.use(Router);
 
@@ -33,6 +34,11 @@ export const router = new Router({
       path: "/send-alert",
       name: 'Send Alert',
       component: SendAlert
+    },
+    {
+      path: "/add-users",
+      name: 'Add User',
+      component: AddUsers
     },
     {
       path: "/publishers",
