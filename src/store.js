@@ -24,7 +24,8 @@ export const store = new Vuex.Store({
   mutations: {
     setAuthToken: (state, { token }) => {
       state.authToken = token
-      state.userId = parseInt(VueJwtDecode.decode(token)["unique_name"],10)
+      if( token != null )
+        state.userId = parseInt(VueJwtDecode.decode(token)["unique_name"],10)
     },
     setListUserOrGroup: (state, { nameList, list }) => {
       state.listSenders[nameList] = list

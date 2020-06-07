@@ -6,7 +6,9 @@ import { router } from "./router"
 import vuetify from './plugins/vuetify'
 import 'vuetify/dist/vuetify.min.css'
 //import 'babel-polyfill'
+import Clipboard from "vue-clipboard2"
 
+Vue.use(Clipboard);
 Vue.config.productionTip = false;
 new Vue({
   router,

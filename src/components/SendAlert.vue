@@ -10,7 +10,7 @@
           prepend-icon="mdi-magnify"
           label="Search"
           v-model="searchAlert"
-          @input="getListAlerts"
+          @input="getSearchAlerts"
       >
       </v-text-field>
       <v-dialog v-model="dialogSend" max-width="900px">
@@ -156,6 +156,7 @@
             </v-container>
           </v-card-text>
           <v-card-actions>
+            <v-btn color="red darken-1" fab dark v-clipboard:copy="viewItem.contents" v-clipboard:success="copyHtml"><v-icon dark>mdi-xml</v-icon></v-btn>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" text @click="close">Cancel</v-btn>
             <v-btn color="green darken-1" text @click="resend">Send</v-btn>
@@ -252,6 +253,19 @@
         </v-row>
       </div>
     </v-card-text>
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+    >
+      {{ "copy Html" }}
+      <v-btn
+          color="green"
+          text
+          @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -261,7 +275,6 @@ import { mainColorTheme, setAlert } from "@/utils/consts"
 import axios from "axios";
 import { quillEditor } from 'vue-quill-editor'
 import hljs from "highlight.js"
-import dedent from 'dedent'
 
 export default {
   name: "SendAlert",
@@ -270,6 +283,8 @@ export default {
   },
   data() {
     return{
+      timeout: 2000,
+      snackbar: false,
       overlay: false,
       dialog: false,
       dialogSend: false,
@@ -332,8 +347,7 @@ export default {
             highlight: text => hljs.highlightAuto(text).value
           }
         }
-      },
-      content: dedent`<p><br></p>>`
+      }
     }
   },
   watch: {
@@ -346,6 +360,10 @@ export default {
     }
   },
   methods: {
+    getSearchAlerts(){
+      this.page = 1
+      this.getListAlerts()
+    },
     getListAlerts() {
       this.loading = true
       const query = {
@@ -367,10 +385,10 @@ export default {
     getColor: (online) => online ? 'green' : 'grey',
     removeAlertFormListId(list) {
       const id = list[0]
-      const subarray = list.splice(0, 1)
-      axios.delete(`api/alerts/${id}`)
+      list.splice(0, 1)
+      axios.get(`api/alerts/deactivated/${id}`)
         .then(() => {
-            this.removeAlertFormListId(subarray)
+            this.removeAlertFormListId(list)
       }).catch( err => {
         this.overlay = false
         throw err
@@ -378,14 +396,19 @@ export default {
     },
     deleteItem() {
       this.overlay = true
-      //const alertId = this.selectedAlert.map(item => item.alert_id)
-      //this.removeAlertFormListId(alertId)
-      this.selectedAlert.forEach((alert) => {
-        const indexDel = this.listAlerts.indexOf(alert)
-        this.listAlerts.splice(indexDel,1)
-      })
+      const alertId = this.selectedAlert.map(item => item.alert_id)
+      this.removeAlertFormListId(alertId)
+      // this.selectedAlert.forEach((alert) => {
+      //   const indexDel = this.listAlerts.indexOf(alert)
+      //   this.listAlerts.splice(indexDel,1)
+      // })
       //confirm('Are you sure you want to delete this item? ') && this.desserts.splice(index, 1)
-      this.overlay = false
+      const time = alertId.length < 3 ? 500 : alertId.length < 7 ? 1300 : alertId.length < 14 ? 1800 : 2800
+      setTimeout(()=>{
+        this.selectedAlert = []
+        this.getListAlerts()
+        this.overlay = false
+      },time);
     },
     resendItem(item) {
       this.viewItem = item //Object.assign({}, item)
@@ -420,6 +443,15 @@ export default {
         //this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
+    },
+    copyHtml(e) {
+      this.snackbar = true
+      const el = document.createElement('textarea');
+      el.value = e.text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
     },
     createQueryParam( limit, page, search) {
       if(search !== "")

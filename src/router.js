@@ -6,6 +6,7 @@ import CreateAlert from "@/components/CreateAlert"
 import SendAlert from "@/components/SendAlert"
 import Publishers from "@/components/Publishers"
 import Groups from "@/components/Groups"
+import Dashboard from "@/components/Dashboard"
 import { store } from './store';
 
 Vue.use(Router);
@@ -21,7 +22,7 @@ export const router = new Router({
     {
       path: '/',
       name: 'AdminPage',
-      component: HelloWorld
+      component: Dashboard
     },
     {
       path: '/created-alert',
@@ -44,8 +45,8 @@ export const router = new Router({
       component: Groups
     },
     {
-      path: '/Hello',
-      name: 'helloWorld',
+      path: '/help',
+      name: 'help',
       component: HelloWorld
     },
     {

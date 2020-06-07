@@ -192,8 +192,14 @@ export default {
     save() {
       const indexPol = this.typePolicyRule.indexOf(this.newPublisher.policyId) + 1
       const data = this.newPublisher.user
-      axios.post("/api/publishers",  data , { params: { policyId: indexPol } })
-        .then(() => this.getListPublisher())
+            data.policyId = indexPol
+      axios.post("/api/publishers",  data)
+        .then(() => {
+          this.getListPublisher()
+          this.newPublisher.policyId = null
+          this.newPublisher.user.Login = null
+          this.newPublisher.user.Password = null
+        })
         .catch(err => {
           throw err
         })

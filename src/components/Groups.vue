@@ -3,6 +3,7 @@
       fluid
       class="cart-group">
     <v-row >
+<!--      <v-col cols="12">-->
       <v-card
           width="450px"
           class="ma-3"
@@ -35,6 +36,12 @@
               >
                 mdi-delete
               </v-icon>
+              <v-icon
+                  size="30"
+                  @click="chainUser(item)"
+              >
+                mdi-link-variant-plus
+              </v-icon>
             </template>
           </v-data-table>
           <v-text-field
@@ -63,6 +70,10 @@
           </div>
         </v-card-text>
       </v-card>
+<!--      </v-col>-->
+<!--      <v-col cols="12">-->
+      <vEditGroup :chain="chain"></vEditGroup>
+<!--      </v-col>-->
     </v-row>
   </v-container>
 </template>
@@ -71,10 +82,14 @@
 import { headerTableGroups } from "@/utils/hedars_table"
 import { mainColorTheme } from "@/utils/consts"
 import axios from "axios";
+import vEditGroup from "@/components/EditGroup"
 
 const correctRegExp = /^[A-Za-z0-9\s]+$/
 export default {
   name: "Groups",
+  components: {
+    vEditGroup
+  },
   data() {
     return {
       dialog: false,
@@ -89,6 +104,7 @@ export default {
       search: null,
       loading: true,
       isValid: false,
+      chain: null,
       stackRules: [
         v => {
           this.isValid = correctRegExp.test(v)
@@ -134,6 +150,9 @@ export default {
           throw err
         })
       this.newGroup = null
+    },
+    chainUser(item) {
+      this.chain = item;
     }
   },
   computed: {
@@ -146,7 +165,7 @@ export default {
 
 <style scoped>
 .cart-group {
-  height: 800px;
+  max-height: 500px;
 }
 .cart-create-group {
   margin: 10px;
