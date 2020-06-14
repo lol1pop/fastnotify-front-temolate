@@ -33,7 +33,7 @@
               v-model="search"
               full-width
               hide-details
-              label="Search"
+              label="Поиск"
               single-line
           ></v-text-field>
         </v-col>

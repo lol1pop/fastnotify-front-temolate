@@ -95,7 +95,7 @@ export default {
         }
       },
       seriesDay: [{
-        name: 'Total Day',
+        name: 'Отправлено',
         data: []
       }],
       optionsWeek: {
@@ -140,16 +140,16 @@ export default {
         }
       },
       seriesWeek: [{
-        name: 'Total week',
+        name: 'Оправлено',
         data: []
       }],
       series: [
         {
-          name: 'Total',
+          name: 'Отправлено',
           data: []
         },
         {
-          name: 'Received',
+          name: 'Доставленные',
           data: []
         }
       ],
@@ -218,7 +218,7 @@ export default {
             }
           }
         },
-        labels: ['Total', 'Received', 'WaitSent'],
+        labels: ['Отправлено', 'Доставлено', 'Ожидает'],
       },
       seriesAlert: [50,20,30],
       factor: null

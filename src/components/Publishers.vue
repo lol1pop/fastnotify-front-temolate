@@ -25,7 +25,7 @@
               color="success"
               :loading="loading"
               prepend-icon="mdi-magnify"
-              label="Search"
+              label="Поиск"
               v-model="search"
               @input="getListPublisher"
           ></v-text-field>
@@ -75,7 +75,7 @@
         <v-text-field
             v-model="newPublisher.user.Login"
             :rules="stackRules"
-            label="Login"
+            label="Логин"
             counter
             required
             color="green darken-1"
@@ -83,7 +83,7 @@
         <v-text-field
             v-model="newPublisher.user.Password"
             :rules="stackRules"
-            label="Password"
+            label="Пароль"
             :type="isActiveEye ? 'text' : 'password'"
             :append-icon="isActiveEye ? 'mdi-eye' : 'mdi-eye-off'"
             counter="25"
@@ -94,10 +94,10 @@
         ></v-text-field>
         <v-autocomplete
             v-model="newPublisher.policyId"
-            :rules="[() => {isValid.v4 = !!newPublisher.policyId ; return !!newPublisher.policyId || 'This field is required';}]"
+            :rules="[() => {isValid.v4 = !!newPublisher.policyId ; return !!newPublisher.policyId || 'Оязательно выбрать роль';}]"
             :items="typePolicyRule"
-            label="Policy Rule"
-            placeholder="Select..."
+            label="Политика безопасности"
+            placeholder="Выбрать Роль..."
             required
             chips
             color="green darken-1"
@@ -105,7 +105,7 @@
         <v-card-actions
             class="mt-10">
           <v-spacer></v-spacer>
-          <v-btn :disabled="!validate" color="green darken-1" text @click="save">Add Publisher</v-btn>
+          <v-btn :disabled="!validate" color="green darken-1" text @click="save">Добавить Контент Менеджера</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>
@@ -149,11 +149,11 @@ export default {
       stackRules: [
         v => {
           this.isValid.v1 = !!v
-          return !!v || "Name is required"
+          return !!v || "Обязательное поле"
         },
         v => {
           this.isValid.v2 = !!v && v.length >= 4
-          return !!v && v.length >= 4 || "Name must be at less than 4 characters"
+          return !!v && v.length >= 4 || "Не мение 4-х символов"
         },
         v => {
           this.isValid.v3 = correctRegExp.test(v)

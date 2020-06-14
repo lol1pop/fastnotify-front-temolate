@@ -10,7 +10,7 @@
               v-model="login"
               :rules="nameRules"
               counter
-              label="Login"
+              label="Логин"
               success
               required
           ></v-text-field>
@@ -20,7 +20,7 @@
               counter
               :type="isActiveEye ? 'text' : 'password'"
               :append-icon="isActiveEye ? 'mdi-eye' : 'mdi-eye-off'"
-              label="Password"
+              label="Пароль"
               hint="At least 4 characters"
               success
               required
@@ -53,15 +53,15 @@ export default {
       nameRules: [
         v => {
           this.isValid1 = !!v
-          return !!v || "Name is required"
+          return !!v || "Обязательное поле"
         },
         v => {
           this.isValid2 = !!v && v.length >= 4
-          return !!v && v.length >= 4 || "Name must be at less than 4 characters"
+          return !!v && v.length >= 4 || "Мение 4 символа"
         },
         v => {
           this.isValid3 = correctRegExp.test(v)
-          return correctRegExp.test(v) || "Name not must be symbols"
+          return correctRegExp.test(v) || "Не должно сожержать знаки"
         }
       ]
     }

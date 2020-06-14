@@ -25,7 +25,7 @@
           text
           @click="logout"
       >
-        <span class="mr-2">Logout</span>
+        <span class="mr-2">Разлогиниться</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -115,19 +115,18 @@ export default {
   },
   data: () => ({
     items: [
-      {text: "Create alert", icon: "mdi-application", link: "/created-alert"},
-      {text: "Send alert", icon: "mdi-application-export", link: "/send-alert"},
-      {text: "Draft alert", icon: "mdi-inbox-arrow-down-outline"},
-      {text: "Template alert", icon: "mdi-animation-outline"},
+      {text: "Создать", icon: "mdi-application", link: "/created-alert"},
+      {text: "Оповещение", icon: "mdi-application-export", link: "/send-alert"},
+      {text: "Черновики", icon: "mdi-inbox-arrow-down-outline"},
       {divider: true},
-      {text: "Dashboard", icon: "mdi-ballot-outline", link: "/"},
+      {text: "Панель статистики", icon: "mdi-ballot-outline", link: "/"},
       {divider: true},
-      {text: "Add Users", icon: "mdi-account-outline", link: "/add-users"},
-      {text: "Publisher List", icon: "mdi-account-tie-voice-outline", link: "/publishers"},
-      {text: "Group List", icon: "mdi-account-group", link: "/groups"},
+      {text: "Создать Пользователя", icon: "mdi-account-outline", link: "/add-users"},
+      {text: "Создать Менеджера", icon: "mdi-account-tie-voice-outline", link: "/publishers"},
+      {text: "Создать Группу", icon: "mdi-account-group", link: "/groups"},
       {divider: true},
-      {text: "Reports", icon: "mdi-chart-bell-curve-cumulative"},
-      {text: "Help", icon: "mdi-help", link: "/help"},
+      {text: "Отчеты", icon: "mdi-chart-bell-curve-cumulative"},
+      {text: "Помощь", icon: "mdi-help", link: "/help"},
       {divider: true},
     ],
     primaryDrawer: {

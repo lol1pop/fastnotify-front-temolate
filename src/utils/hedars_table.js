@@ -1,27 +1,27 @@
 const headersTableAlert = [
   {
-    text: 'Type',
+    text: 'ВИД',
     align: 'start',
     sortable: false,
     value: 'type',
   },
-  { text: 'Title', value: 'title' },
-  { text: 'Creation date', value: 'date_create' },
-  { text: 'Sender', value: 'sender' },
-  { text: 'Actions', value: 'actions', sortable: false },
+  { text: 'ЗАГОЛОВОК', value: 'title' },
+  { text: 'ДАДА СОЗДАНИЯ', value: 'date_create' },
+  { text: 'ОТПРАВИТЕЛЬ', value: 'sender' },
+  { text: ' ', value: 'actions', sortable: false },
 ]
 
 const headersTableUserGroup = {
   users: [{
-    text: 'Display name',
+    text: 'ОТОБРОЖАЕМОЕ ИМЯ',
     align: 'start',
     sortable: true,
     value: 'display_name',
   },
-    { text: 'Name', value: 'login' },
-    { text: 'Online', value: 'online' }],
+    { text: 'ЛОГИН', value: 'login' },
+    { text: 'СТАТУС', value: 'online' }],
   groups: [{
-    text: 'Name',
+    text: 'ГРУППА',
     align: 'start',
     sortable: true,
     value: 'name',
@@ -42,22 +42,22 @@ const typePolicyRule = [
 ]
 
 const headerTablePublisher = [{
-  text: "Login",
+  text: "ЛОГИН",
   align: "start",
   value: "login",
 },
-  {text: "Role", value: "role"},
-  { text: 'Actions', value: 'actions', sortable: false }
+  {text: "РОЛЬ", value: "role"},
+  { text: ' ', value: 'actions', sortable: false }
 ]
 
 const headerTableGroups = [{
-  text: "Name",
+  text: "ГРУППА",
   align: "start",
   sortable: true,
   value: "name",
 },
   {text: "ID", value: "group_id"},
-  { text: 'Actions', value: 'actions', sortable: false}]
+  { text: ' ', value: 'actions', sortable: false}]
 
 export {
   typePolicyRule,

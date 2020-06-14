@@ -8,7 +8,7 @@
           color="success"
           :loading="loading"
           prepend-icon="mdi-magnify"
-          label="Search"
+          label="Поиск"
           v-model="searchAlert"
           @input="getSearchAlerts"
       >
@@ -16,7 +16,7 @@
       <v-dialog v-model="dialogSend" max-width="900px">
         <v-card>
           <v-card-title>
-            <span class="headline">{{ "Selected senders" }}</span>
+            <span class="headline">{{ "Выберете получателя(-ей)" }}</span>
           </v-card-title>
           <v-container
               fluid
@@ -31,7 +31,7 @@
                       color="success"
                       :loading="loading2.user"
                       prepend-icon="mdi-magnify"
-                      label="Search"
+                      label="Поиск"
                       v-model="search.users"
                       @input="getListUsers"
                   >
@@ -74,7 +74,7 @@
                       color="success"
                       :loading="loading2.group"
                       prepend-icon="mdi-magnify"
-                      label="Search"
+                      label="Поиск"
                       v-model="search.groups"
                       @input="getListGroups()"
                   ></v-text-field>
@@ -109,19 +109,19 @@
           </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="closeSend">Cancel</v-btn>
-            <v-btn color="green darken-1" text @click="save">Send</v-btn>
+            <v-btn color="green darken-1" text @click="closeSend">Закрыть</v-btn>
+            <v-btn color="green darken-1" text @click="save">Отправить</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title>
-            <span class="headline">{{ "Template view Alert" }}</span>
+            <span class="headline">{{ "Просмотр шаблона оповещения" }}</span>
           </v-card-title>
           <v-card-text>
             <v-container>
-              <v-card height="400px" >
+              <v-card height="450px" >
                 <div class="alert-header"></div>
                 <v-row>
                   <v-col cols="7" class="pa-1 pl-4">
@@ -134,7 +134,7 @@
                     ></v-img>
                   </v-col>
                   <v-col cols="5" class="pa-0">
-                    <v-card-subtitle class="pa-3">Create date: <br> {{ dateCreate() }}</v-card-subtitle>
+                    <v-card-subtitle class="pa-3">Дата создания: <br> {{ dateCreate() }}</v-card-subtitle>
                   </v-col>
                 </v-row>
                 <v-card-title
@@ -158,8 +158,8 @@
           <v-card-actions>
             <v-btn color="red darken-1" fab dark v-clipboard:copy="viewItem.contents" v-clipboard:success="copyHtml"><v-icon dark>mdi-xml</v-icon></v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="green darken-1" text @click="resend">Send</v-btn>
+            <v-btn color="green darken-1" text @click="close">Закрыть</v-btn>
+            <v-btn color="green darken-1" text @click="resend">Выбрать получателя</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -217,7 +217,7 @@
           </v-chip>
         </template>
         <template v-slot:no-data>
-          <v-btn class="del btn" :color="color.main" @click="getListAlerts">Reset</v-btn>
+          <v-btn class="del btn" :color="color.main" @click="getListAlerts">Сбросить</v-btn>
         </template>
       </v-data-table>
       <div class="text-center pt-2">
@@ -225,7 +225,7 @@
           <v-col
               cols="1"
           >
-            <v-btn class="del btn" :color="color.main" @click="deleteItem">Delete</v-btn>
+            <v-btn class="del btn" :color="color.main" @click="deleteItem">Удалить</v-btn>
           </v-col>
           <v-col
               cols="1"
@@ -233,7 +233,7 @@
             <v-combobox
                 v-model="pageableMaxItems"
                 :items="pageble"
-                label="Items on page"
+                label="Количество"
                 outlined
                 dense
             ></v-combobox>
@@ -257,7 +257,7 @@
         v-model="snackbar"
         :timeout="timeout"
     >
-      {{ "copy Html" }}
+      {{ " Html Код Скопирован в Буфер" }}
       <v-btn
           color="green"
           text

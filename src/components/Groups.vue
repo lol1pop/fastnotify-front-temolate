@@ -13,7 +13,7 @@
               color="success"
               :loading="loading"
               prepend-icon="mdi-magnify"
-              label="Search"
+              label="Поиск"
               v-model="search"
               @input="getListGroup"
           ></v-text-field>
@@ -47,7 +47,7 @@
           <v-text-field
               v-model="newGroup"
               :rules="stackRules"
-              label="Add new group"
+              label="Создать Группу"
               prepend-icon="mdi-account-multiple-plus"
               :append-outer-icon="newGroup ? 'mdi-send' : 'mdi-tree-outline'"
               required

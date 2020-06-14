@@ -12,9 +12,9 @@
           max-width="290"
       >
         <v-card>
-          <v-card-title class="headline">Fields empty?</v-card-title>
+          <v-card-title class="headline">Осторожно пустое поле</v-card-title>
           <v-card-text>
-            Check pls your fields!
+            Пожайлуста проверте все свои поля
           </v-card-text>
 <!--          <v-card-actions>-->
 <!--            <v-spacer></v-spacer>-->
@@ -46,7 +46,7 @@
             editable
             :color="color.main"
         >
-          Step 1
+          Шаг 1
         </v-stepper-step>
 
         <v-stepper-content
@@ -58,7 +58,7 @@
           >
             <v-text-field
                 v-model="titleAlert"
-                label="Title"
+                label="Заголовок"
                 :rules="nameRules"
                 counter
                 success
@@ -85,7 +85,7 @@
                          :color="color.main"
                          @click="saveCode"
                   >
-                    Save
+                    Сохранить
                   </v-btn>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -97,10 +97,10 @@
               @click="nextStep(1)"
                  :disabled="!isValid"
           >
-            Continue
+            Продолжить
           </v-btn>
 
-          <v-btn text>Cancel</v-btn>
+          <v-btn text>Закрыть</v-btn>
         </v-stepper-content>
 
         <v-stepper-step
@@ -110,7 +110,7 @@
             editable
             :color="color.main"
         >
-          Step 2
+          Шаг 2
         </v-stepper-step>
 
         <v-stepper-content
@@ -119,46 +119,48 @@
         >
           <v-expansion-panels>
             <v-expansion-panel>
-              <v-expansion-panel-header>Alert settings</v-expansion-panel-header>
+              <v-expansion-panel-header>Настройки Оповещения</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <div class="panel-priority-alert">
                   <v-checkbox
                       v-model="hidePriority"
-                      label="Hide Priority"
+                      label="Оповещение с высоким приоритетом"
                       :color="color.main"
+                      :disabled="selfDestructing"
                   ></v-checkbox>
                   <v-checkbox
+                      :disabled="hidePriority"
                       class="mt-0"
                       v-model="selfDestructing"
-                      label="Self-destructing alert"
+                      label="Ненавязчивое оповещение"
                       :color="color.main"
                   ></v-checkbox>
                 </div>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel class="mb-5">
-              <v-expansion-panel-header>Schedule alert</v-expansion-panel-header>
+              <v-expansion-panel-header>Запланированое Оповещение</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <div class="d-flex">
-                  <v-switch v-model="ScheduleAlert" class="ma-4" label="Schedule alert" :color="color.main"></v-switch>
+                  <v-switch v-model="ScheduleAlert" class="ma-4" label="Запланировать отправку" :color="color.main"></v-switch>
                 </div>
                 <div class="block-schedule" v-if="ScheduleAlert">
                   <v-card class="pattern">
-                    <v-card-text>Pattern</v-card-text>
+                    <v-card-text>Повторение</v-card-text>
                     <v-divider></v-divider>
                     <v-card-text class="cart-radios" >
                       <v-radio-group class="mt-0" v-model="pattern" column >
-                        <v-radio label="once" value="bahamas" :color="color.main"></v-radio>
-                        <v-radio label="dayle" value="bahrain" :color="color.main"></v-radio>
-                        <v-radio label="weekly" value="bangladesh" :color="color.main"></v-radio>
-                        <v-radio label="mouthy" value="barbados" :color="color.main"></v-radio>
-                        <v-radio label="yearly" value="belarus" :color="color.main"></v-radio>
+                        <v-radio label="Разово" value="bahamas" :color="color.main"></v-radio>
+                        <v-radio label="Каждый День" value="bahrain" :color="color.main"></v-radio>
+                        <v-radio label="Каждую Неделю" value="bangladesh" :color="color.main"></v-radio>
+                        <v-radio label="Каждый Месяц" value="barbados" :color="color.main"></v-radio>
+                        <v-radio label="Каждый Год" value="belarus" :color="color.main"></v-radio>
                       </v-radio-group>
                     </v-card-text>
                     <v-divider></v-divider>
                   </v-card>
                   <v-card class="option">
-                    <v-card-text>Option</v-card-text>
+                    <v-card-text>Задать диапозон</v-card-text>
                     <v-divider></v-divider>
                     <v-card-text class="cart-data" >
                     <v-menu
@@ -175,7 +177,7 @@
                         <v-text-field
                             v-model="start"
                             class="mt-3"
-                            label="Start Date"
+                            label="Начало"
                             prepend-icon="mdi-calendar"
                             dense
                             readonly
@@ -222,7 +224,7 @@
                         <v-text-field
                             v-model="end"
                             class="mt-3"
-                            label="End Date"
+                            label="Окончание"
                             prepend-icon="mdi-calendar"
                             dense
                             readonly
@@ -268,7 +270,7 @@
                         <template v-slot:activator="{ on }">
                           <v-text-field
                               v-model="time"
-                              label="Time"
+                              label="Время"
                               prepend-icon="mdi-clock"
                               class="mt-3"
                               dense
@@ -299,10 +301,10 @@
               :color="color.main"
               @click="nextStep(2)"
           >
-            Continue
+            Продолжить
           </v-btn>
 
-          <v-btn text>Cancel</v-btn>
+          <v-btn text>Закрыть</v-btn>
         </v-stepper-content>
         <v-stepper-step
             :key="`3-step`"
@@ -311,7 +313,7 @@
             editable
             :color="color.main"
         >
-          Step 3
+          Шаг 3
         </v-stepper-step>
 
         <v-stepper-content
@@ -332,7 +334,7 @@
                       color="success"
                       :loading="loading.user"
                       prepend-icon="mdi-magnify"
-                      label="Search"
+                      label="Поиск"
                       v-model="search.users"
                       @input="getListUsers()"
                   >
@@ -376,7 +378,7 @@
                       color="success"
                       :loading="loading.group"
                       prepend-icon="mdi-magnify"
-                      label="Search"
+                      label="Поиск"
                       v-model="search.groups"
                       @input="getListGroups()"
                   ></v-text-field>
@@ -413,8 +415,8 @@
                  :color="color.main"
                  @click="saveAndSendAlert"
                  :disabled="!isValid"
-          >Send</v-btn>
-          <v-btn text>Cancel</v-btn>
+          >Отправить</v-btn>
+          <v-btn text>Закрыть</v-btn>
         </v-stepper-content>
       </v-stepper>
     </div>
@@ -444,7 +446,7 @@ export default {
       nameRules: [
         v => {
           this.isValid = !!v
-          return !!v || "Name is required"
+          return !!v || "Обязательное поле"
         }
       ],
       color: {
@@ -453,8 +455,8 @@ export default {
         dark: mainColorTheme.dark,
         light: mainColorTheme.light,
       },
-      hidePriority: this.hidePriority,
-      selfDestructing: this.selfDestructing,
+      hidePriority: false,
+      selfDestructing: false,
       ScheduleAlert: false,
       startMenu: false,
       start: "2020-01-12",
@@ -503,15 +505,15 @@ export default {
       },
       headers: {
         users: [{
-          text: 'Display name',
+          text: 'ОТОБРОЖАЕМОЕ ИМЯ',
           align: 'start',
           sortable: true,
           value: 'display_name',
         },
-          { text: 'Name', value: 'login' },
-          { text: 'Online', value: 'online' }],
+          { text: 'ЛОГИН', value: 'login' },
+          { text: 'СТАТУС', value: 'online' }],
         groups: [{
-          text: 'Name',
+          text: 'ГРУППА',
           align: 'start',
           sortable: true,
           value: 'name',
@@ -589,13 +591,11 @@ export default {
       alert.alert_settings.unobtrusive = false
       alert.schedule_alert.schedule = this.ScheduleAlert
       alert.schedule_alert.pattern = 1
-      alert.type = 1
-      // eslint-disable-next-line no-console
-      console.log("SAVE",alert)
+      alert.type = this.hidePriority ? 3 : this.selfDestructing ? 5 : 1
+      this.hidePriority = false
+      this.selfDestructing = false
       return axios.post("/api/alerts/save", alert)
         .then(res => {
-          // eslint-disable-next-line no-console
-          console.log("SUCCESS SAVE",res.status,res.data)
           return res.data.alert_id
         })
         .catch(err => {
@@ -648,7 +648,7 @@ export default {
   flex-direction: column;
 }
 .editor {
-  height: 400px;
+  height: 600px;
   overflow-y: auto;
 }
 code {
@@ -672,7 +672,7 @@ code {
 }
 .cart-radios {
   height: 200px;
-  width: 200px;
+  width: 250px;
 }
 .cart-user {
   margin: 10px;
